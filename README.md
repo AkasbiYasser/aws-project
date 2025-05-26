@@ -6,7 +6,7 @@
 
 ## 🧩 Architecture Générale
 
-![Architecture](architecture.PNG)
+![Architecture](docs/architecture.PNG)
 
 Voici l'architecture globale du projet :
 
