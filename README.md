@@ -6,7 +6,7 @@
 
 ## 🧩 Architecture Générale
 
-![Architecture](architecture.png)
+![Architecture](architecture.PNG)
 
 Voici l'architecture globale du projet :
 
@@ -42,7 +42,7 @@ Voici l'architecture globale du projet :
 ## 🖼️ Screenshots
 
 ### 1. Employee Directory - Home
-![Employee Directory](employee-directory.png)
+![Employee Directory](employee-directory.PNG)
 > **Description** : Cette image montre l'interface utilisateur de l'application `Employee Directory` :
 > - **Titre** : `Employee Directory - Home`
 > - **Message de succès** : Un message bleu indique que l'employé `'AKASBI Yasser'` a été ajouté avec succès.
@@ -53,7 +53,7 @@ Voici l'architecture globale du projet :
 > Cela illustre une application web qui interagit avec une base de données (DynamoDB) pour stocker et afficher les informations des employés.
 
 ### 2. Configuration de l'Application
-![Configuration](app-settings.png)
+![Configuration](app-settings.PNG)
 > **Description** : Cette image montre la configuration de l'application :
 > - **Dynamo DB Enabled** : Activé.
 > - **S3 Access Enabled** : Activé.
