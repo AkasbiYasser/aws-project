@@ -1,6 +1,6 @@
 # 🚀 AWS Cloud Technical Essentials Project
 
-> Projet réalisé dans le cadre de l'atelier AWS Cloud Technical Essentials. Ce projet illustre la mise en œuvre d'une architecture cloud complète, incluant VPC, EC2, Auto Scaling, Load Balancing, S3, DynamoDB, IAM, et CloudWatch.
+> Projet réalisé dans le cadre de la certif AWS solution architect. Ce projet illustre la mise en œuvre d'une architecture cloud complète, incluant VPC, EC2, Auto Scaling, Load Balancing, S3, DynamoDB, IAM, et CloudWatch.
 
 ---
 
