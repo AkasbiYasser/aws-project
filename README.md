@@ -1,166 +1,177 @@
-# 🚀 AWS solution architect Project
+# 🚀 AWS Solution Architect Project
 
-> Projet réalisé dans le cadre de la certification AWS Solution Architect. Ce projet illustre la mise en œuvre d'une architecture cloud complète, incluant VPC, EC2, Auto Scaling, Load Balancing, S3, DynamoDB, IAM, et CloudWatch.
-
----
-
-## 🧩 Architecture Générale
-
-![Architecture](docs/architecture.PNG)
-
-Voici l'architecture globale du projet :
-
-1. **VPC (Virtual Private Cloud)** :
-   - Deux zones de disponibilité (`ca-central-1a` et `ca-central-1b`).
-   - Deux sous-réseaux publics pour garantir la redondance et la haute disponibilité.
-
-2. **Application Load Balancer (ALB)** :
-   - Distribue la charge entre les instances EC2.
-   - Assure la haute disponibilité en cas de panne d'une instance.
-
-3. **Instances EC2** :
-   - Deux instances EC2 déployées dans des zones de disponibilité différentes.
-   - Gérées par un groupe Auto Scaling pour s'adapter à la demande.
-
-4. **Auto Scaling Group** :
-   - Ajoute ou supprime automatiquement des instances EC2 en fonction de la charge.
-
-5. **Amazon DynamoDB** :
-   - Table NoSQL utilisée pour stocker et récupérer des données rapidement.
-
-6. **Amazon S3** :
-   - Stockage objet utilisé pour conserver des fichiers ou des ressources statiques.
-
-7. **IAM (Identity and Access Management)** :
-   - Définit les politiques d'accès pour les instances EC2.
-
-8. **Amazon CloudWatch** :
-   - Surveille les métriques et les logs de l'infrastructure.
+> Project carried out as part of the AWS Solution Architect certification. This project demonstrates the implementation of a complete cloud architecture, including VPC, EC2, Auto Scaling, Load Balancing, S3, DynamoDB, IAM, and CloudWatch.
 
 ---
 
-## 🖼️ Screenshots
+## 🧩 Overall Architecture
 
-### 1. Architecture Globale
 ![Architecture](docs/architecture.PNG)
-> **Description** : Cette image montre l'architecture complète du projet, incluant VPC, EC2, Load Balancer, Auto Scaling, S3, DynamoDB, IAM, et CloudWatch.
 
-### 2. Table de Routage (Routing Table)
-![Table de Routage](docs/routeteabe.PNG)
-> **Description** : Cette image montre la configuration de la table de routage (`Public Route Table`) associée aux sous-réseaux publics. Les routes suivantes sont définies :
-> - Destination : `0.0.0.0/0` → Cible : Internet Gateway (`igw-0542157acb79e136b`)
-> - Destination : `10.0.0.0/16` → Cible : Local
-> 
-> Cela garantit que les instances EC2 peuvent accéder à Internet et communiquer entre elles.
+Here is the overall architecture of the project:
 
-### 3. Mappage des Ressources du VPC
-![Mappage des Ressources](docs/vpc-mapping.PNG)
-> **Description** : Cette image illustre le mappage des ressources du VPC :
-> - **VPC** : `Lab VPC`
-> - **Sous-réseaux** :
->   - `ca-central-1a` : `Public Subnet 1`
->   - `ca-central-1b` : `Public Subnet 2`
-> - **Tables de Routage** : `Public Route Table` est associée aux deux sous-réseaux.
-> - **Connexions réseau** : Une connexion à un Internet Gateway (`igw`) est configurée.
+1. **VPC (Virtual Private Cloud)**:
+   - Two availability zones (`ca-central-1a` and `ca-central-1b`).
+   - Two public subnets to ensure redundancy and high availability.
 
-### 4. Liste des Sous-réseaux
-![Liste des Sous-réseaux](docs/subnets-list.PNG)
-> **Description** : Cette image montre la liste des sous-réseaux créés :
-> - **Public Subnet 1** :
->   - ID : `subnet-06a3cb02c8952ce1d`
->   - CIDR : `10.0.0.0/24`
-> - **Public Subnet 2** :
->   - ID : `subnet-0dbcb0f22e1098e50`
->   - CIDR : `10.0.1.0/24`
-> 
-> Chaque sous-réseau est disponible et associé au VPC `Lab VPC`.
+2. **Application Load Balancer (ALB)**:
+   - Distributes the traffic between EC2 instances.
+   - Ensures high availability in case of instance failure.
 
-### 5. Liste des VPC
-![Liste des VPC](docs/vpcs-list.PNG)
-> **Description** : Cette image montre la liste des VPC créés :
-> - **Lab VPC** :
->   - ID : `vpc-0fe37be1f4d1d9f4d`
->   - CIDR IPv4 : `10.0.0.0/16`
-> - **Autre VPC** :
->   - ID : `vpc-0bbf238ee5dfa6deb`
->   - CIDR IPv4 : `172.31.0.0/16`
-> 
-> Le VPC `Lab VPC` est utilisé pour ce projet.
+3. **EC2 Instances**:
+   - Two EC2 instances deployed in different availability zones.
+   - Managed by an Auto Scaling group to adjust based on demand.
 
-### 6. Instances EC2
-![Instances EC2](docs/ec2-instances.PNG)
-> **Description** : Cette image montre les instances EC2 en cours d'exécution :
-> - **Nombre d'instances** : 4 instances EC2 (`t3.micro`).
-> - **État** : Toutes les instances sont en état `En cours d'exécution`.
-> - **Zone de disponibilité** :
->   - Deux instances dans `ap-northeast-1a`.
->   - Deux instances dans `ap-northeast-1c`.
-> 
-> Les métriques suivantes sont affichées :
-> - Utilisation CPU (%).
-> - Réseau entrant/sortant (octets).
-> - Paquets de réseau entrants/sortants.
-> 
-> Ces instances sont gérées par un groupe Auto Scaling pour assurer une scalabilité dynamique.
+4. **Auto Scaling Group**:
+   - Automatically adds or removes EC2 instances based on load.
 
-### 7. Équilibrage de Charge (Load Balancer)
-![Équilibrage de Charge](docs/load-balancer.PNG)
-> **Description** : Cette image montre la configuration de l'Application Load Balancer (ALB) :
-> - **Nom** : `Web-Application-ALB`
-> - **Statut** : Actif
-> - **Type d'équilibrage de charge** : Application Load Balancer (ALB)
-> - **Méthode** : Internet-facing (exposé à Internet)
-> - **VPC** : `vpc-0a5637823006e41fd`
-> - **Zones de disponibilité** :
->   - `subnet-059e9bb3277d96e83` (ap-northeast-1c)
->   - `subnet-03592181b258844c` (ap-northeast-1a)
-> 
-> L'ALB distribue la charge entre les instances EC2 réparties dans différentes zones de disponibilité, garantissant une haute disponibilité et une distribution uniforme du trafic.
+5. **Amazon DynamoDB**:
+   - NoSQL table used for fast data storage and retrieval.
 
-### 8. Employee Directory - Home
-![Employee Directory](docs/employee-directory.PNG)
-> **Description** : Cette image montre l'interface utilisateur de l'application `Employee Directory` :
-> - **Titre** : `Employee Directory - Home`
-> - **Message de succès** : Un message bleu indique que l'employé `'AKASBI Yasser'` a été ajouté avec succès.
-> - **Tableau d'employés** :
->   - Colonnes : `Employee Name`, `Location`, `Email`, `Photo Available`.
->   - Actions disponibles : Une option `Actions` permet de gérer les employés (modifier, supprimer, etc.).
-> 
-> Cela illustre une application web qui interagit avec une base de données (DynamoDB) pour stocker et afficher les informations des employés.
+6. **Amazon S3**:
+   - Object storage used to store files or static resources.
 
-### 9. Configuration de l'Application
-![Configuration](docs/app-settings.PNG)
-> **Description** : Cette image montre la configuration de l'application :
-> - **Dynamo DB Enabled** : Activé.
-> - **S3 Access Enabled** : Activé.
-> - **Bucket S3** : `labstack-6f95f3dd-1465-435e-9eb9-3e5c-imagesbucket-xyibfs44snrb`.
-> - **Région** : `ap-northeast-1`.
-> - **Zone de disponibilité** : `ap-northeast-1c`.
-> - **ID d'instance EC2** : `i-0ad61f4934d824518`.
-> - **Outils d'administration** :
->   - **CPU Usage** : L'utilisation CPU est affichée (1% actuellement).
->   - **Stress Testing** : Option pour tester la résistance de l'application en simulant une charge accrue.
-> 
-> Cela montre que l'application utilise :
-> - DynamoDB comme base de données NoSQL.
-> - S3 pour stocker les photos des employés.
-> - Une instance EC2 spécifique pour héberger l'application.
-> - Des outils d'administration pour surveiller l'utilisation CPU et effectuer des tests de charge.
+7. **IAM (Identity and Access Management)**:
+   - Defines access policies for EC2 instances.
 
-### 10. Target Configuration
+8. **Amazon CloudWatch**:
+   - Monitors infrastructure metrics and logs.
+
+---
+
+### 2. Routing Table
+
+![Routing Table](docs/routeteabe.PNG)
+
+**Description**: This image shows the routing table (`Public Route Table`) configuration associated with the public subnets. The following routes are defined:
+- Destination: `0.0.0.0/0` → Target: Internet Gateway (`igw-0542157acb79e136b`)
+- Destination: `10.0.0.0/16` → Target: Local
+
+This ensures that EC2 instances can access the Internet and communicate with each other.
+
+### 3. VPC Resource Mapping
+
+![VPC Resource Mapping](docs/vpc-mapping.PNG)
+
+**Description**: This image illustrates the mapping of VPC resources:
+- **VPC**: `Lab VPC`
+- **Subnets**:
+  - `ca-central-1a`: `Public Subnet 1`
+  - `ca-central-1b`: `Public Subnet 2`
+- **Routing Tables**: `Public Route Table` is associated with both subnets.
+- **Network Connections**: A connection to an Internet Gateway (`igw`) is configured.
+
+### 4. Subnets List
+
+![Subnets List](docs/subnets-list.PNG)
+
+**Description**: This image shows the list of created subnets:
+- **Public Subnet 1**:
+  - ID: `subnet-06a3cb02c8952ce1d`
+  - CIDR: `10.0.0.0/24`
+- **Public Subnet 2**:
+  - ID: `subnet-0dbcb0f22e1098e50`
+  - CIDR: `10.0.1.0/24`
+
+Each subnet is available and associated with the `Lab VPC`.
+
+### 5. VPC List
+
+![VPC List](docs/vpcs-list.PNG)
+
+**Description**: This image shows the list of created VPCs:
+- **Lab VPC**:
+  - ID: `vpc-0fe37be1f4d1d9f4d`
+  - IPv4 CIDR: `10.0.0.0/16`
+- **Other VPC**:
+  - ID: `vpc-0bbf238ee5dfa6deb`
+  - IPv4 CIDR: `172.31.0.0/16`
+
+The `Lab VPC` is used for this project.
+
+### 6. EC2 Instances
+
+![EC2 Instances](docs/ec2-instances.PNG)
+
+**Description**: This image shows the running EC2 instances:
+- **Number of instances**: 4 EC2 instances (`t3.micro`).
+- **State**: All instances are in `Running` state.
+- **Availability Zone**:
+  - Two instances in `ap-northeast-1a`.
+  - Two instances in `ap-northeast-1c`.
+
+Displayed metrics:
+- CPU usage (%)
+- Network in/out (bytes)
+- Network packets in/out
+
+These instances are managed by an Auto Scaling group to ensure dynamic scalability.
+
+### 7. Load Balancer
+
+![Load Balancer](docs/load-balancer.PNG)
+
+**Description**: This image shows the configuration of the Application Load Balancer (ALB):
+- **Name**: `Web-Application-ALB`
+- **Status**: Active
+- **Type**: Application Load Balancer (ALB)
+- **Scheme**: Internet-facing
+- **VPC**: `vpc-0a5637823006e41fd`
+- **Availability Zones**:
+  - `subnet-059e9bb3277d96e83` (ap-northeast-1c)
+  - `subnet-03592181b258844c` (ap-northeast-1a)
+
+The ALB distributes traffic between EC2 instances across different availability zones, ensuring high availability and even traffic distribution.
+
+### 8. Target Configuration
+
 ![Target Configuration](docs/targetcible.PNG)
-> **Description** : Cette image montre la configuration des cibles pour l'Application Load Balancer (ALB). Les cibles sont généralement des instances EC2 ou des services backend auxquels le load balancer redirige le trafic. La configuration inclut :
-> - **Cibles** : Liste des instances EC2 ou autres ressources connectées.
-> - **État** : Statut de chaque cible (en ligne, hors ligne, etc.).
-> - **Poids** : Poids attribué à chaque cible pour la distribution du trafic.
-> 
-> Cela garantit que le trafic est correctement distribué vers les ressources appropriées.
+
+**Description**: This image shows the target configuration for the Application Load Balancer (ALB). Targets are typically EC2 instances or backend services the load balancer routes traffic to. The configuration includes:
+- **Targets**: List of connected EC2 instances or resources
+- **Status**: Status of each target (online, offline, etc.)
+- **Weight**: Weight assigned to each target for traffic distribution
+
+### 9. Employee Directory - Home
+
+![Employee Directory](docs/employee-directory.PNG)
+
+**Description**: This image shows the UI of the `Employee Directory` application:
+- **Title**: `Employee Directory - Home`
+- **Success Message**: A blue message indicates that the employee `'AKASBI Yasser'` was added successfully.
+- **Employee Table**:
+  - Columns: `Employee Name`, `Location`, `Email`, `Photo Available`
+  - Available Actions: An `Actions` option allows employee management (edit, delete, etc.)
+
+This illustrates a web app interacting with a DynamoDB database to store and display employee information.
+
+### 10. Application Settings
+
+![Configuration](docs/app-settings.PNG)
+
+**Description**: This image shows the application settings:
+- **Dynamo DB Enabled**: Enabled
+- **S3 Access Enabled**: Enabled
+- **S3 Bucket**: `labstack-6f95f3dd-1465-435e-9eb9-3e5c-imagesbucket-xyibfs44snrb`
+- **Region**: `ap-northeast-1`
+- **Availability Zone**: `ap-northeast-1c`
+- **EC2 Instance ID**: `i-0ad61f4934d824518`
+- **Admin Tools**:
+  - **CPU Usage**: Displayed (1% currently)
+  - **Stress Testing**: Option to simulate heavy load on the application
+
+This shows that the app uses:
+- DynamoDB as the NoSQL database
+- S3 for storing employee photos
+- A specific EC2 instance to host the application
+- Admin tools to monitor CPU usage and perform stress tests
+
 
 ---
 
-## 🛠️ Technologies Utilisées
+## 🛠️ Technologies Used
 
-- **AWS Services** :
+- **AWS Services**:
   - Amazon VPC
   - Amazon EC2
   - Auto Scaling
@@ -169,11 +180,3 @@ Voici l'architecture globale du projet :
   - Amazon DynamoDB
   - IAM
   - Amazon CloudWatch
-
-- **Autres Outils** :
-  - AWS CLI
-  - AWS Management Console
-
----
-
-## 📦 Structure du Projet
