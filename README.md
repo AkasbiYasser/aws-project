@@ -1,4 +1,4 @@
-# 🚀 AWS Cloud Technical Essentials Project
+# 🚀 AWS solution architect Project
 
 > Projet réalisé dans le cadre de la certification AWS Solution Architect. Ce projet illustre la mise en œuvre d'une architecture cloud complète, incluant VPC, EC2, Auto Scaling, Load Balancing, S3, DynamoDB, IAM, et CloudWatch.
 
